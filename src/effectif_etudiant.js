@@ -1,9 +1,6 @@
-let activeBarId = null;
-
 
 AFRAME.registerComponent('bar-point-generator', {
   schema: {
-    // La propriété 'originalValue' est supprimée du schéma
     points: {type: 'number', default: 10} 
   },
 
@@ -18,29 +15,25 @@ AFRAME.registerComponent('bar-point-generator', {
     const targetEntity = el.parentNode; 
     const numberOfPoints = this.data.points; 
     
-    // La lecture de 'originalValue' est supprimée ici
-
     // 1. GESTION DE LA DÉSACIVATION
     if (activeBarId === el.id) {
-      console.log(`Bascule OFF : Barre ID ${el.id} re-cliquée. Désactivation.`);
-      removeAllARContent(targetEntity); 
-      activeBarId = null; 
-      return; 
+        removeAllARContent(targetEntity);
+        resetAllStates();
+        return; 
     }
     
     // 2. GESTION DE L'ACTIVATION
     
-    // A. Nettoyer la scène (Désactivation de l'ancienne barre)
+    // Nettoyage général et réinitialisation de l'ancienne barre
     if (activeBarId !== null) {
         removeAllARContent(targetEntity);
-        console.log(`Bascule ON : Désactivation de l'ancienne barre (${activeBarId}).`);
+        resetAllStates();
     }
     
-    // B. Marquer la nouvelle barre comme active
+    // Marquer la nouvelle barre comme active
     activeBarId = el.id; 
-    console.log(`Bascule ON : Activation de la nouvelle barre ID ${el.id}.`);
     
-    // C. Génération des nouveaux points (code inchangé)
+    // Génération des nouveaux points
     for (let i = 0; i < numberOfPoints; i++) {
         const pointEl = document.createElement('a-sphere');
         const x = (Math.random() - 0.5) * 0.8; 
@@ -54,12 +47,9 @@ AFRAME.registerComponent('bar-point-generator', {
         targetEntity.appendChild(pointEl);
     }
 
-    // D. Affichage du texte d'avertissement
+    // Affichage du texte d'avertissement
     const warningTextEl = document.createElement('a-text');
-    
-    // Texte simplifié pour ne garder que l'explication du point
     warningTextEl.setAttribute('value', `Chaque point représente environ 10 étudiants`); 
-    
     warningTextEl.setAttribute('position', `0 0.6 0.2`); 
     warningTextEl.setAttribute('align', 'center');
     warningTextEl.setAttribute('width', '1.5'); 
@@ -71,28 +61,5 @@ AFRAME.registerComponent('bar-point-generator', {
 
   remove: function () {
     this.el.removeEventListener('click', this.clickHandler);
-  }
-});
-
-// ==========================================================
-// 2. Logique d'initialisation des événements
-// ==========================================================
-document.addEventListener("DOMContentLoaded", function() {
-  const exampleTarget = document.querySelector('#example-target');
-  
-  if (exampleTarget) {
-    exampleTarget.addEventListener("targetFound", event => {
-      console.log("Cible trouvée.");
-    });
-    exampleTarget.addEventListener("targetLost", event => {
-      console.log("Cible perdue.");
-      
-      const targetEntity = document.querySelector('#example-target');
-      if (targetEntity) {
-        // Le composant n'est pas nécessaire ici, appel direct de la fonction globale
-        removeAllARContent(targetEntity);
-        activeBarId = null; 
-      }
-    });
   }
 });

@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>MindAR Hitboxes Manuelles</title>
+    <title>Projet AR Interactif</title>
     
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     
+    <script src="src/ar-utils.js"></script> 
     <script src="src/effectif_etudiant.js"></script> 
-    <script src="src/ar-outils.js"></script>
+    <script src="src/camembert_interactif.js"></script>
     
   </head>
   <body>
@@ -23,6 +24,9 @@
 
       <a-assets>
         <img id="affiche-texture" src="image/affiche_formation_biterois.png" />
+
+        <img id="secteur-autre-texture" src="image/camembert_autre_formation.png"  />
+        <img id="secteur-en_formation-texture" src="image/camembert_EN_formation.png" />
       </a-assets>
 
       <a-camera 
@@ -40,40 +44,69 @@
           position="0 0 0.001" 
           width="1" 
           height="1.45" 
-          rotation="0 0 0" 
-        ></a-plane>
+          rotation="0 0 0" ></a-plane>
 
         <a-plane 
-          id="1"
+          id="barre-1"
           class="clickable" 
           bar-point-generator="points: 242" 
-          color="blue" opacity="0" 
+          color="blue" opacity="0.0" 
           position="-0.165 0.155 0.002" 
           width="0.2" height="0.25" 
           rotation="0 0 0" 
         ></a-plane>
         
         <a-plane 
-          id="2"
+          id="barre-2"
           class="clickable" 
           bar-point-generator="points: 291"
-          color="blue" opacity="0" 
+          color="blue" opacity="0.0"
           position="0.05 0.18 0.002" 
           width="0.2" height="0.31" 
           rotation="0 0 0" 
         ></a-plane>
         
         <a-plane 
-          id="3"
+          id="barre-3"
           class="clickable" 
           bar-point-generator="points: 368"
-          color="blue" opacity="0" 
+          color="blue" opacity="0.0" 
           position="0.2760 0.22 0.002" 
           width="0.2" height="0.39" 
           rotation="0 0 0" 
         ></a-plane>
-        
       </a-entity>
-    </a-scene>
+      <a-entity id="camembert-container" position="0 -0.45 0.002" rotation="0 0 0">
+          
+          <a-plane 
+              id="secteur-formation"
+              class="clickable"
+              camembert-interactif="
+                  explanation: Les étudiants en formation: 70% de l'effectif.;
+                  originalSrc: #formation-texture;"
+              
+              src="#formation-texture"  
+              opacity="1.0"           
+              position="0 0 0.002"     
+              width="0.3" height="0.3" 
+              rotation="0 0 0"
+          ></a-plane>
+
+          <a-plane 
+              id="secteur-autres"
+              class="clickable"
+              camembert-interactif="
+                  explanation: Autres formations: 30% de l'effectif.;
+                  originalSrc: #autres-texture;"
+              
+              src="#autres-texture" 
+              opacity="1.0" 
+              position="0.2 0 0.002" 
+              width="0.2" height="0.2"
+              rotation="0 0 0"
+          ></a-plane>
+          
+          </a-entity>
+      </a-scene>
   </body>
 </html>
