@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MindAR Hitboxes Manuelles</title>
+    
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    
+    <script src="src/effectif_etudiant.js"></script> 
+    
+  </head>
+  <body>
+    <a-scene 
+      mindar-image="imageTargetSrc: image/affiche_formation_biterois.mind; autoStart: true;" 
+      color-space="sRGB" 
+      renderer="colorManagement: true, physicallyCorrectLights: true" 
+      vr-mode-ui="enabled: false" 
+      device-orientation-permission-ui="enabled: false"
+    >
+
+      <a-assets>
+        <img id="affiche-texture" src="image/affiche_formation_biterois.png" />
+      </a-assets>
+
+      <a-camera 
+        position="0 0 0" 
+        look-controls="enabled: false" 
+        cursor="fuse: false; rayOrigin: mouse;" 
+        raycaster="near: 10; far: 10000; objects: .clickable"
+      ></a-camera>
+
+      <a-entity id="example-target" mindar-image-target="targetIndex: 0">
+        
+        <a-plane 
+          id="ar-overlay" 
+          src="#affiche-texture" 
+          position="0 0 0.001" 
+          width="1" 
+          height="1.45" 
+          rotation="0 0 0" 
+        ></a-plane>
+
+        <a-plane 
+          class="clickable" 
+          bar-point-generator="points: 10" 
+          color="blue" opacity="0.5" 
+          position="-0.38 0.28 0.002" 
+          width="0.1" height="0.35" 
+          rotation="0 0 0" 
+        ></a-plane>
+        
+        <a-plane 
+          class="clickable" 
+          bar-point-generator="points: 20" 
+          color="blue" opacity="0.5" 
+          position="0.01 0.35 0.002" 
+          width="0.1" height="0.50" 
+          rotation="0 0 0" 
+        ></a-plane>
+        
+        <a-plane 
+          class="clickable" 
+          bar-point-generator="points: 30" 
+          color="blue" opacity="0.5" 
+          position="0.40 0.40 0.002" 
+          width="0.1" height="0.60" 
+          rotation="0 0 0" 
+        ></a-plane>
+        
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
